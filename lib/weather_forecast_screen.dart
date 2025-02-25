@@ -1,7 +1,15 @@
 import "package:flutter/material.dart";
 
 class WeatherForecastScreen extends StatelessWidget {
-  const WeatherForecastScreen({super.key});
+  final IconData icons;
+  final String time;
+  final String temp;
+  const WeatherForecastScreen({
+    super.key,
+    required this.time,
+    required this.icons,
+    required this.temp,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,14 +21,14 @@ class WeatherForecastScreen extends StatelessWidget {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
         child: Column(
           children: [
-            const Text(
-              "09.00",
+            Text(
+              time,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
             const SizedBox(height: 8),
-            Icon(Icons.cloud, size: 32),
+            Icon(icons, size: 32),
             const SizedBox(height: 8),
-            const Text("300.18"),
+            Text(temp),
           ],
         ),
       ),
