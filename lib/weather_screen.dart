@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  double temp = 0;
   @override
   void initState() {
     super.initState();
@@ -21,13 +23,24 @@ class _WeatherScreenState extends State<WeatherScreen> {
   }
 
   Future getCurrentWeaather() async {
-    String cityName = "London";
-    final res = await http.get(
-      Uri.parse(
-        "https://api.openweathermap.org/data/2.5/weather?q=$cityName&APPID=$openWeatherAPIKey",
-      ),
-    );
-    print(res.body);
+    try {
+      String cityName = "London";
+      final res = await http.get(
+        Uri.parse(
+          "https://api.openweathermap.org/data/2.5/forecast?q=$cityName&APPID=$openWeatherAPIKey",
+        ),
+      );
+
+      final data = jsonDecode(res.body);
+      if (data['cod'] != '200') {
+        throw "An unexpected error occured";
+      }
+      setState(() {
+        temp = data['List'][0]['main']['temp'];
+      });
+    } catch (e) {
+      throw e.toString();
+    }
   }
 
   @override
@@ -63,7 +76,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       child: Column(
                         children: [
                           Text(
-                            "300K",
+                            "$temp K",
                             style: TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
