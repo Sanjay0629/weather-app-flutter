@@ -24,6 +24,8 @@ class WeatherForecastScreen extends StatelessWidget {
             Text(
               time,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 8),
             Icon(icons, size: 32),
